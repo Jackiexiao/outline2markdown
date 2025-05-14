@@ -41,13 +41,20 @@
 - 3
     - 3.1</textarea>
         <div class="flex flex-col gap-2 w-56">
-          <label class="font-medium text-gray-700 mb-1">转换为标题的层级数</label>
-          <select id="header-count" class="border rounded-lg p-2 text-gray-700 focus:ring-2 focus:ring-blue-400">
-            <option value="1">1 层（只转换最外层为标题）</option>
-            <option value="2" selected>2 层（默认）</option>
-            <option value="3">3 层</option>
-            <option value="4">4 层</option>
+          <label class="font-medium text-gray-700 mb-1">转换模式</label>
+          <select id="conversion-mode" class="border rounded-lg p-2 text-gray-700 focus:ring-2 focus:ring-blue-400">
+            <option value="manual">手动层级数</option>
+            <option value="auto" selected>自动检测 (推荐)</option>
           </select>
+          <div id="manual-controls">
+            <label class="font-medium text-gray-700 mb-1 mt-2 block">转换为标题的层级数</label>
+            <select id="header-count" class="border rounded-lg p-2 text-gray-700 focus:ring-2 focus:ring-blue-400 w-full">
+              <option value="1">1 层</option>
+              <option value="2" selected>2 层</option>
+              <option value="3">3 层</option>
+              <option value="4">4 层</option>
+            </select>
+          </div>
           <label class="font-medium text-gray-700 mt-2">标题级别整体偏移</label>
           <select id="header-offset" class="border rounded-lg p-2 text-gray-700 focus:ring-2 focus:ring-blue-400">
             <option value="0" selected>不偏移</option>
@@ -77,6 +84,8 @@
   <script>
     // DOM Elements
     const outlineInput = document.getElementById('outline-input');
+    const conversionModeEl = document.getElementById('conversion-mode');
+    const manualControlsEl = document.getElementById('manual-controls');
     const headerCountEl = document.getElementById('header-count');
     const headerOffsetEl = document.getElementById('header-offset');
     const convertBtn = document.getElementById('convert-btn');
@@ -91,19 +100,37 @@
 
     function convertAndDisplay() {
       const text = outlineInput.value;
-      const count = parseInt(headerCountEl.value, 10);
+      const mode = conversionModeEl.value;
       const offset = parseInt(headerOffsetEl.value, 10);
-      // Ensure outline2markdown is available from outline-converter.js
-      if (typeof outline2markdown === 'function') {
-        const md = outline2markdown(text, count, offset);
-        markdownOutput.value = md;
-      } else {
-        console.error('outline2markdown function not found. Check script loading.');
-        markdownOutput.value = 'Error: Conversion function not loaded.';
+      let md = '';
+
+      if (typeof outline2markdown !== 'function' || typeof outline2markdownAuto !== 'function') {
+        console.error('Conversion function(s) not found. Check script loading.');
+        markdownOutput.value = 'Error: Conversion function(s) not loaded.';
+        return;
       }
+
+      if (mode === 'auto') {
+        manualControlsEl.classList.add('hidden');
+        md = outline2markdownAuto(text, offset);
+      } else { // manual
+        manualControlsEl.classList.remove('hidden');
+        const count = parseInt(headerCountEl.value, 10);
+        md = outline2markdown(text, count, offset);
+      }
+      markdownOutput.value = md;
     }
 
     // Event Listeners
+    conversionModeEl.addEventListener('change', () => {
+      // Immediately toggle visibility and reconvert
+      if (conversionModeEl.value === 'auto') {
+        manualControlsEl.classList.add('hidden');
+      } else {
+        manualControlsEl.classList.remove('hidden');
+      }
+      convertAndDisplay(); 
+    });
     convertBtn.addEventListener('click', convertAndDisplay);
     headerCountEl.addEventListener('change', convertAndDisplay);
     headerOffsetEl.addEventListener('change', convertAndDisplay);
@@ -148,6 +175,8 @@
 
     // Initial conversion on load
     window.addEventListener('load', () => {
+        conversionModeEl.value = 'auto'; // Default to auto
+        manualControlsEl.classList.add('hidden');
         loadDemoBtn.click(); // Load demo and convert
     });
   </script>
