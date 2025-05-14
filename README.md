@@ -1,43 +1,63 @@
 # outline2markdown
 
-> 多层级大纲一键转 Markdown 的网页工具
+> A web tool to convert multi-level outlines to Markdown with a single click.
 
-## 项目结构
+[中文文档](./README.zh.md) | [Development Log](./Dev.md)
 
-- `index.html`：主入口网页，包含全部功能和界面
-- （如需扩展，可增加更多页面或 public 资源文件夹）
+## Project Structure
 
-## 功能介绍
+-   `index.html`: The main entry point, containing all features and UI.
+-   `outline-converter.js`: JavaScript file with the core conversion logic.
+-   `README.md`: This project description file (English).
+-   `README.zh.md`: Project description file (Chinese).
+-   `Dev.md`: Development process log (English).
+-   `Dev.zh.md`: Development process log (Chinese).
 
-- 支持粘贴、输入、上传 txt/markdown 文件，自动识别多层级无序列表
-- 可自定义将前几级大纲转为 Markdown 标题（Header），其余为无序列表
-- 一键转换、复制、下载 Markdown 结果
-- 响应式设计，适配桌面和平板
-- 现代化高保真 UI，使用 Tailwind CSS + FontAwesome
-- 友情链接到 [01mvp.com](https://01mvp.com)
+## Features
 
-## 使用方法
+-   **Multiple Input Formats**: Supports pasting text, direct input, or uploading `.txt` and `.md` files via drag-and-drop or a file dialog.
+-   **Intelligent Conversion**:
+    -   **Auto Mode (Recommended)**: Intelligently detects outline levels, automatically determining which levels are suitable for Markdown headers and which should remain as list items, optimizing the output structure.
+    -   **Manual Mode**: Allows users to define how many initial levels of the outline are converted into Markdown headers (H1-H6).
+-   **Header Offset**: Globally increase or decrease the level of all converted Markdown headers (e.g., +1 level shifts H1 to H2, H2 to H3, etc.).
+-   **Convenient Output**: One-click copy of the converted result to the clipboard, or direct download as an `.md` Markdown file.
+-   **User Experience**:
+    -   Modern and aesthetically pleasing UI using Tailwind CSS and FontAwesome icons.
+    -   Responsive design, adapting to both desktop and tablet devices.
+    -   Bilingual support (English/Chinese) with automatic browser language detection and a manual toggle.
+-   **Pure Front-end Implementation**: No server-side processing; all operations occur in the browser, ensuring speed, security, and privacy.
+-   **Friendship Link**: Includes a link to [01mvp.com](https://01mvp.com).
 
-1. 打开 `index.html`，无需任何依赖，直接浏览器访问
-2. 粘贴或输入你的多层级无序列表，或上传 txt/markdown 文件
-3. 选择 Header 层级数（如 3 级 Header）
-4. 点击"一键转换"按钮，结果会自动显示在下方
-5. 可点击"复制结果"或"下载 Markdown"按钮
+## How to Use
 
-> 示例已自动填充，直接体验转换效果
+1.  Open the `index.html` file directly in your browser.
+2.  **Input Outline**:
+    -   Paste or type your multi-level unordered list directly into the left-hand textarea.
+    -   Drag and drop a `.txt` or `.md` file onto the designated drop zone.
+    -   Click the "Upload" button to select a file.
+    -   Click the "Load Demo" button to populate the input with a built-in example.
+3.  **Select Conversion Mode**:
+    -   **Auto-detect (Recommended)**: The tool will analyze your input and intelligently determine header levels.
+    -   **Manual Levels**: If selected, you can specify how many initial levels of your outline should be converted to Markdown headers.
+4.  **(Optional) Adjust Header Level Offset**: If needed, choose whether to uniformly increase the level of all generated headers.
+5.  **View Result**: The converted Markdown content will appear in real-time in the right-hand textarea.
+6.  **Export Content**:
+    -   Click the "Copy Result" button to copy the Markdown text to your clipboard.
+    -   Click the "Download Markdown" button to save the content as an `.md` file.
+7.  **Switch Language**: Click the "中文 / EN" toggle in the top-right of the page to switch the UI language.
 
-## 设计亮点
+## Design Highlights
 
-- 现代化渐变背景、圆角卡片、流畅动画
-- 交互按钮高亮、操作反馈及时
-- 真实 UI 图片（Unsplash logo）
-- 纯前端实现，无需后端，安全高效
+-   Modern design with gradient backgrounds, rounded cards, and smooth animations.
+-   Clear interactive elements, such as button highlighting and instant feedback.
+-   Uses a random Unsplash image as a logo for visual interest.
+-   Clean and efficient pure front-end implementation; dependencies are loaded via CDN, requiring no local build or Node.js environment.
 
-## 依赖说明
+## Dependencies
 
-- [Tailwind CSS](https://tailwindcss.com/)（CDN）
-- [FontAwesome](https://fontawesome.com/)（CDN）
+-   [Tailwind CSS](https://tailwindcss.com/) (CDN)
+-   [FontAwesome](https://fontawesome.com/) (CDN)
 
-## 版权声明
+## Credits
 
-- 本工具由 [01mvp.com](https://01mvp.com) 友情支持，仅供学习与交流使用。 
+-   This tool was inspired by and kindly supported by the [01mvp.com](https://01mvp.com) project, primarily for learning, demonstration, and communication purposes. 
